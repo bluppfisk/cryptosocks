@@ -28,13 +28,18 @@ async def get_ticker():
         while True:
             data = await websocket.recv()
             price = float(json.loads(data).get('price', '0'))
+            if price == last:
+                continue
+
+            print(" ETH Price: ", end='')
             if price > last:
                 set_color(15, 2)
-            else:
+            elif price < last:
                 set_color(15, 1)
 
-            print(price, end="\r")
+            print(price, end="")
             reset_color()
+            print("\r", end="")
             last = price
 
 
